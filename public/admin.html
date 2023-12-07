@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="admin.css">
+    <script src="admin.js"></script>
+    <title>Admin</title>
+</head>
+<body>
+      <script>
+        function increaseQuantity() {
+          let quantity = parseInt(document.querySelector('.product p:last-child').textContent.split(":")[1]);
+          quantity += 1;
+          document.querySelector('.product p:last-child').textContent = "Quantity: " + quantity;
+        }
+      </script>
+    <h1>Управление складами и товарами</h1>
+
+    <div class="store-section">
+      <h2>Склады</h2>
+  
+      <input type="text" id="store-id-input" placeholder="ID склада">
+      <input type="text" id="store-name-input" placeholder="Название склада">
+      <button onclick="addStore()">Добавить склад</button>
+      <button onclick="updateStore()">Изменить склад</button>
+      <button onclick="deleteStore()">Удалить склад</button>
+      <button onclick="searchStore()">Поиск по ID</button>
+  
+      <ul id="store-list"></ul>
+    </div>
+  
+    <div class="product-section">
+      <h2>Товары</h2>
+      
+      <input type="text" id="product-id-input" placeholder="ID товара">
+      <input type="text" id="product-name-input" placeholder="Название товара">
+      <input type="text" id="product-category-input" placeholder="Категория">
+      <input type="text" id="product-characteristics-input" placeholder="Характеристики">
+      <input type="text" id="product-storage-id-input" placeholder="ID склада">
+      <button onclick="addProduct()">Добавить товар</button>
+      <button onclick="updateProduct()">Обновить товар</button>
+      <button onclick="deleteProduct()">Удалить товар</button>
+      <button onclick="searchProduct()">Поиск по ID</button>
+  
+      <ul id="product-list"></ul>
+    </div>
+  
+    <script src="script.js"></script>
+</body>
+</html>
