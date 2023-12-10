@@ -1,3 +1,9 @@
+function increaseQuantity() {
+  let quantity = parseInt(document.querySelector('.product p:last-child').textContent.split(":")[1]);
+  quantity += 1;
+  document.querySelector('.product p:last-child').textContent = "Quantity: " + quantity;
+}
+
 // Добавление склада
 function addStore() {
     var storeId = document.getElementById("store-id-input").value;
@@ -105,9 +111,6 @@ function addStore() {
       }
     }
   
-    document.getElementById("product-id-input").value = ""}
-    function increaseQuantity() {
-  let quantity = parseInt(document.querySelector('.product p:last-child').textContent.split(":")[1]);
-  quantity += 1;
-  document.querySelector('.product p:last-child').textContent = "Quantity: " + quantity;
+    document.getElementById("product-id-input").value = ""
 }
+    

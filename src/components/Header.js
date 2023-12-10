@@ -34,7 +34,7 @@ export default function Header(props) {
                 <li>Отзывы</li>
                 <li><a href="FormAutorization.html">Авторизация или регистрация</a></li>
             </ul>
-            <FaShoppingCart onClick={() => setCartOpen(cartOpen = !cartOpen)} className={`shop-cart-button ${cartOpen && 'active'}`}/>
+            {/* <FaShoppingCart onClick={() => setCartOpen(cartOpen = !cartOpen)} className={`shop-cart-button ${cartOpen && 'active'}`}/> */}
             {cartOpen && (
               <div className='shop-cart'>
                 {props.orders.length > 0 ?
