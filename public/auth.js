@@ -18,9 +18,6 @@ function getJwtToken() {
 }
 
 async function authMethod(login, password) {
-  if (login == "admin" && password == "admin") { 
-    return window.open("admin.html"); 
-  }
 
   let request = internalFetch()
 
@@ -28,7 +25,6 @@ async function authMethod(login, password) {
     url: "http://localhost:8080/auth/signin",
     headers: {
         "Content-Type": "application/json"
-        // "Authorization": "Bearer "
     },
     body: {
         userName: login,
@@ -52,6 +48,12 @@ async function authMethod(login, password) {
   }
   else {
     alert("Вход выполнен успешно")
-    // window.open("index.html")
+  }
+
+  if (login == "admin" && password == "admin") { 
+    window.open("admin.html"); 
+  }
+  else {
+    window.open("index.html")
   }
 }
