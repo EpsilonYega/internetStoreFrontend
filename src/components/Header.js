@@ -3,12 +3,11 @@ import { FaShoppingCart } from "react-icons/fa";
 import Order from './Order';
 
 const showOrders = (props) => {
+  console.log(props)
   let summa = 0
   props.orders.forEach(el => summa += Number.parseFloat(el.price))
   return (<div>
-    {props.orders.map(el => (
-        <Order onDelete={props.onDelete} key={el.id} item={el} />
-      ))}
+    {props.orders.map(el => (console.log(el), <Order onDelete={props.onDelete} key={el.id} item={el}/>))}
       <p className='summa'>Сумма: {new Intl.NumberFormat().format(summa)}$</p>
   </div>)
 
@@ -34,7 +33,7 @@ export default function Header(props) {
                 <li>Отзывы</li>
                 <li><a href="FormAutorization.html">Авторизация или регистрация</a></li>
             </ul>
-            {/* <FaShoppingCart onClick={() => setCartOpen(cartOpen = !cartOpen)} className={`shop-cart-button ${cartOpen && 'active'}`}/> */}
+            <FaShoppingCart onClick={() => setCartOpen(cartOpen = !cartOpen)} className={`shop-cart-button ${cartOpen && 'active'}`}/>
             {cartOpen && (
               <div className='shop-cart'>
                 {props.orders.length > 0 ?

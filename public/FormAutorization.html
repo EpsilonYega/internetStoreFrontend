@@ -6,6 +6,7 @@
     <title>Форма для регистрации</title>
     <link rel="stylesheet" href="style.css">
     <script src="script.js" defer></script>
+    <script src="request.js"></script> 
 </head>
 <body>
     <article class="container">
@@ -23,25 +24,22 @@
 
         </div>
 
-        <div class="form-box">
-            
-
-
-            <form action="#" class="form form_signin">
+        <div class="form-box">           
+            <form class="form form_signin">
                 <h3 class="form_title">Вход</h3>
 
                 <p>
-                    <input type="text" class="form_input" id="input_login" placeholder="Логин">
+                    <input name="login" type="text" class="form_input" id="input_login" placeholder="Логин">
                 </p>
                 <p>
-                    <input type="password" class="form_input" id="input_password" placeholder="Пароль">
+                    <input name="password" type="password" class="form_input" id="input_password" placeholder="Пароль">
                 </p>
                 <p>
-                    <button class="form_btn" id="auth_btn">Войти</button>
+                    <button class="form_btn" id="auth_btn" type="button">Войти</button>
                     <script src="auth.js"></script>
                     <script>
                         document.getElementById("auth_btn").addEventListener("click", function() {
-                            redirectToAdminPage(document.getElementById("input_login").value, document.getElementById("input_password").value);
+                            authMethod(document.getElementById("input_login").value, document.getElementById("input_password").value);
                         });
                     </script>
                 </p>
@@ -50,23 +48,34 @@
                 </p>
             </form>
 
-            <form action="#" class="form form_signup">
+            <form class="form form_signup">
                 <h3 class="form_title">Регистрация</h3>
 
                 <p>
-                    <input type="text" class="form_input" placeholder="Логин">
+                    <input name="login" type="text" class="form_input" id="input_register_login" placeholder="Логин">
                 </p>
                 <p>
-                    <input type="email" class="form_input" placeholder="Email">
+                    <input name="email" type="email" class="form_input" id="input_register_email" placeholder="Email">
                 </p>
                 <p>
-                    <input type="password" class="form_input" placeholder="Пароль">
+                    <input name="password" type="password" class="form_input" id="input_register_password" placeholder="Пароль">
                 </p>
                 <p>
-                    <input type="password" class="form_input" placeholder="Подтвердите пароль">
+                    <input name="password" type="password" class="form_input" id="input_register_password_confirm" placeholder="Подтвердите пароль">
                 </p>
                 <p>
-                    <button class="form_btn form_btn_signup">Зарегестрироваться</button>
+                    <button class="form_btn form_btn_signup" id="register_btn" type="button">Зарегистрироваться</button>
+                    <script src="register.js"></script>
+                    <script>
+                        document.getElementById("register_btn").addEventListener("click", function() {
+                            register(
+                            document.getElementById("input_register_login").value, 
+                            document.getElementById("input_register_email").value,
+                            document.getElementById("input_register_password").value, 
+                            document.getElementById("input_register_password_confirm").value
+                            );
+                        });
+                    </script>
                 </p>
             </form>
 

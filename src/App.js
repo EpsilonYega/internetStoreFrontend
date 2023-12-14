@@ -5,6 +5,8 @@ import Items from "./components/Items";
 import Categories from "./components/Categories";
 import ShowFullItem from "./components/ShowFullItem";
 import { useState, useEffect } from 'react';
+import request from "./utils/request"
+import token from "./utils/token"
 
 export default function App() {
   const [orders, setOrders] = useState([])
@@ -28,41 +30,157 @@ export default function App() {
       return setCurrentItems(items)
     }
 
+    console.log(category, items.filter((el) => el.category === category))
+
     setCurrentItems(items.filter((el) => el.category === category))
   }
   
-  function deleteOrder(id) {
-    setOrders(orders.filter((el) => el.id !== id))
+  async function deleteOrder(id) {
+    const internalFetch = request.internalFetch()
+
+      const jwtToken = token.getJwtToken()
+
+      let response = await internalFetch.post({ 
+        url: `http://localhost:8080/secured/basket/drop/${id}`,
+        headers: { 
+          "Authorization": `Bearer ${jwtToken}` 
+        },
+        credentials: "same-origin"
+      })
+
+      if(response.status === 200) {
+        console.log(response)
+
+        const internalFetch = request.internalFetch()
+
+        const jwtToken = token.getJwtToken()
+
+        let response2 = await internalFetch.get({
+          url: "http://localhost:8080/secured/basket", 
+          headers: { 
+            "Authorization": `Bearer ${jwtToken}` 
+          },
+          credentials: "same-origin"
+        })
+
+        if(response2.status === 200) {
+          console.log(response2)
+          setOrders(JSON.parse(response2.message))
+        }
+        else {
+          console.log(response2)
+        }
+      }
+      else {
+        console.log(response)
+      }
   }
 
-  function addToOrder(item) {
+  async function addToOrder(item) {
     let isInArray = false
 
     orders.forEach(el => {
-      if(el.id === item.id) isInArray = true
+      if(el.productid === item.productid) isInArray = true
     })
 
-    if(!isInArray) setOrders([...orders, item])
+    if(!isInArray) {
+      const internalFetch = request.internalFetch()
+
+      const jwtToken = token.getJwtToken()
+
+      let response = await internalFetch.post({ 
+        url: `http://localhost:8080/secured/products/${item.productid}/toBasket`,
+        headers: { 
+          "Authorization": `Bearer ${jwtToken}` 
+        },
+        credentials: "same-origin"
+      })
+
+      if(response.status === 200) {
+        console.log(response)
+
+        const internalFetch = request.internalFetch()
+
+        const jwtToken = token.getJwtToken()
+
+        let response2 = await internalFetch.get({
+          url: "http://localhost:8080/secured/basket", 
+          headers: { 
+            "Authorization": `Bearer ${jwtToken}` 
+          },
+          credentials: "same-origin"
+        })
+
+        if(response2.status === 200) {
+          console.log(response2)
+          setOrders(JSON.parse(response2.message))
+        }
+        else {
+          console.log(response2)
+        }
+      }
+      else {
+        console.log(response)
+      }
+    }
   }
 
   useEffect(() => {
     async function getProductList() {
-      let response = await fetch('http://localhost:8080/products')
-      let json_data = await response.json()
+      const internalFetch = request.internalFetch()
 
-      console.log(json_data)
-      
-      setItems(json_data)
+      let response = await internalFetch.get({ 
+        url: "http://localhost:8080/products",
+        credentials: "same-origin" 
+      })
+
+      if(response.status === 200) {
+        console.log(response)
+        setCurrentItems(JSON.parse(response.message))
+        setItems(JSON.parse(response.message))
+      }
+      else {
+        console.log(response)
+        setCurrentItems([])
+        setItems([])
+      }
     }
 
     getProductList();
+  }, []);
+
+  useEffect(() => {
+    async function getOrders() {
+      const internalFetch = request.internalFetch()
+
+      const jwtToken = token.getJwtToken()
+
+      let response = await internalFetch.get({
+        url: "http://localhost:8080/secured/basket", 
+        headers: { 
+          "Authorization": `Bearer ${jwtToken}` 
+        },
+        credentials: "same-origin"
+      })
+
+      if(response.status === 200) {
+        console.log(response)
+        setOrders(JSON.parse(response.message))
+      }
+      else {
+        console.log(response)
+        setOrders([])
+      }
+    }
+
+    getOrders();
   }, []);
 
   return (
     <div className="wrapper">
       <Header orders={orders} onDelete ={deleteOrder}/>
       <Categories chooseCategory ={chooseCategory}/>
-      <Items onShowItem={onShowItem} items={items} onAdd={addToOrder}/>
+      <Items onShowItem={onShowItem} items={currentItems} onAdd={addToOrder}/>
 
       {showFullItem && <ShowFullItem onAdd={addToOrder} onHideItem={onHideItem} onShowItem={onShowItem} item={fullItem}/>}
       <Footer />
