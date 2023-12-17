@@ -15,7 +15,7 @@ async function register(login, email, password, confirmed_password) {
             credentials: "same-origin"
         })
 
-        console.log(response)
+        alert(response.message)
     }
     else {
         alert("Введённые пароли не совпадают, попробуйте ещё раз.")

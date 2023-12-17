@@ -19,15 +19,15 @@
 
     <div class="store-section">
       <h2>Склады</h2>
-  
+      <button onclick="searchStores()">Просмотреть список</button>
+      <ul id="store-list"></ul>
+      <h2>Действия</h2>
       <input type="text" id="store-id-input" placeholder="ID склада">
       <input type="text" id="store-name-input" placeholder="Название склада">
       <button onclick="addStore()">Добавить склад</button>
       <button onclick="updateStore()">Изменить склад</button>
       <button onclick="deleteStore()">Удалить склад</button>
       <button onclick="searchStore()">Поиск по ID</button>
-  
-      <ul id="store-list"></ul>
     </div>
   
     <div class="product-section">
@@ -35,9 +35,11 @@
       
       <input type="text" id="product-id-input" placeholder="ID товара">
       <input type="text" id="product-name-input" placeholder="Название товара">
+      <input type="text" id="product-img-input" placeholder="Изображение товара">
       <input type="text" id="product-category-input" placeholder="Категория">
       <input type="text" id="product-characteristics-input" placeholder="Характеристики">
       <input type="text" id="product-storage-id-input" placeholder="ID склада">
+      <input type="text" id="product-price-input" placeholder="Цена товара">
       <button onclick="addProduct()">Добавить товар</button>
       <button onclick="updateProduct()">Обновить товар</button>
       <button onclick="deleteProduct()">Удалить товар</button>

@@ -95,6 +95,7 @@ export default function App() {
         },
         credentials: "same-origin"
       })
+      alert(response.message)
 
       if(response.status === 200) {
         console.log(response)

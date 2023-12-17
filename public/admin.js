@@ -175,13 +175,43 @@ async function addStore() {
 
     document.getElementById("store-id-input").value = ""; 
   }
+  // Поиск склада по ID
+  async function searchStores() {
+    
+    let storeList = document.getElementById("store-id-input").value;
+  
+    let request = internalFetch() 
+    let token = getJwtToken() 
+
+    let response = await request.get({  
+      url: `http://localhost:8080/admin/warehouses`, 
+      headers: {  
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      }, 
+      credentials: "same-origin" 
+    })
+    let responseList = JSON.parse(response.message)
+
+    // console.log(responseList)
+
+    responseList.forEach(element => {
+      console.log(element)
+      // let newStore = document.createElement("li");
+      // newStore.innerHTML = element
+      // storeList.appendChild(newStore);
+    });
+  }
   
   // Добавление товара
   async function addProduct() {
-    var productName = document.getElementById("product-name-input").value;
-    var productCategory = document.getElementById("product-category-input").value;
-    var productCharacteristics = document.getElementById("product-characteristics-input").value.split(", ");
-    var productStorageId = document.getElementById("product-storage-id-input").value;
+    
+    let productName = document.getElementById("product-name-input").value;
+    let productImg = document.getElementById("product-img-input").value;
+    let productCategory = document.getElementById("product-category-input").value;
+    let productCharacteristics = document.getElementById("product-characteristics-input").value.split(", ");
+    let productStorageId = document.getElementById("product-storage-id-input").value;
+    let productPrice = document.getElementById("product-price-input").value;
   
     let request = internalFetch() 
     let token = getJwtToken() 
@@ -194,41 +224,101 @@ async function addStore() {
       }, 
       body: { 
         productname: productName, 
-        img: "Gold.jpg",
+        img: productImg,
         category: productCategory, 
         characteristicsList: productCharacteristics,
         warehouseId: productStorageId, 
-        price: 41399
+        price: productPrice
     }, 
       credentials: "same-origin" 
     })
   
+    document.getElementById("product-name-input").value = "";
+    document.getElementById("product-img-input").value = "";
+    document.getElementById("product-category-input").value = "";
+    document.getElementById("product-characteristics-input").value = "";
+    document.getElementById("product-storage-id-input").value = "";
+    document.getElementById("product-price-input").value = "";
+  }
+
+  async function updateProduct() {
+
+    let productId = document.getElementById("product-id-input").value;
+    let productName = document.getElementById("product-name-input").value;
+    let productImg = document.getElementById("product-img-input").value;
+    let productCategory = document.getElementById("product-category-input").value;
+    let productCharacteristics = document.getElementById("product-characteristics-input").value.split(", ");
+    let productStorageId = document.getElementById("product-storage-id-input").value;
+    let productPrice = document.getElementById("product-price-input").value;
+
+    let request = internalFetch() 
+    let token = getJwtToken() 
+
+    let response = await request.post({  
+      url: `http://localhost:8080/admin/products/update/${productId}`, 
+      headers: {  
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      }, 
+      body: { 
+        productname: productName, 
+        img: productImg,
+        category: productCategory, 
+        characteristicsList: productCharacteristics,
+        warehouseId: productStorageId, 
+        price: productPrice
+      }, 
+      credentials: "same-origin" 
+    })
+
     document.getElementById("product-id-input").value = "";
     document.getElementById("product-name-input").value = "";
     document.getElementById("product-category-input").value = "";
     document.getElementById("product-characteristics-input").value = "";
     document.getElementById("product-storage-id-input").value = "";
   }
-
-  async function updateProduct() {
-    deleteProduct()
-    addProduct()
-  }
   
   // Удаление товара
   async function deleteProduct() {
-    var productId = document.getElementById("product-id-input").value;
+
+    let productId = document.getElementById("product-id-input").value;
+
+    let request = internalFetch() 
+    let token = getJwtToken() 
   
-    var productList = document.getElementById("product-list");
-    var products = productList.getElementsByTagName("li");
-  
-    for (var i = 0; i < products.length; i++) {
-      if (products[i].innerHTML.includes("ID: " + productId)) {
-        productList.removeChild(products[i]);
-        break;
-      }
-    }
+    let response = await request.post({  
+      url: `http://localhost:8080/admin/products/drop/${productId}`, 
+      headers: {  
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      }, 
+      body: {
+
+      },
+      credentials: "same-origin" 
+    }) 
   
     document.getElementById("product-id-input").value = ""
-}
+  }
+
+  // Поиск товара по ID
+  async function searchProduct() {
+    
+    let productId = document.getElementById("product-id-input").value;
+  
+    let request = internalFetch() 
+    let token = getJwtToken() 
+
+    let response = await request.get({  
+      url: `http://localhost:8080/products/${productId}`, 
+      headers: {  
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}` 
+      }, 
+      credentials: "same-origin" 
+    })
+    console.log(JSON.parse(response.message))
+
+    document.getElementById("product-id-input").value = ""; 
+  }
     
